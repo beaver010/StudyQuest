@@ -1,0 +1,658 @@
+/* ============================================
+   StudyQuest — тёмная современная тема
+   Адаптив: ноутбук и телефон
+   Состояния: пустой список, hover, focus, done
+   ============================================ */
+
+:root {
+  --bg: #0b0e1a;
+  --bg-2: #131730;
+  --card: rgba(26, 31, 55, 0.72);
+  --card-solid: #1a1f37;
+  --card-hover: #232a47;
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #edf0fb;
+  --text-dim: #9aa0c3;
+  --accent: #7c5cff;
+  --accent-2: #00e5ff;
+  --success: #2dd4a8;
+  --warn: #ffb84d;
+  --danger: #ff4d6d;
+  --radius: 18px;
+  --shadow: 0 10px 34px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 560px at 85% -10%, rgba(124, 92, 255, 0.28), transparent 60%),
+    radial-gradient(900px 520px at -10% 108%, rgba(0, 229, 255, 0.16), transparent 60%),
+    linear-gradient(180deg, var(--bg-2), var(--bg));
+  background-attachment: fixed;
+  padding: 28px 16px 70px;
+}
+
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* Тонкая «стеклянная» карточка по умолчанию */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ============================================
+   Шапка: заголовок-герой + карточка счёта
+   ============================================ */
+.header {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hero-icon {
+  font-size: 3rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 14px var(--accent));
+  margin-bottom: 6px;
+}
+
+.app-title {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  line-height: 1;
+  background: linear-gradient(100deg, #fff 20%, var(--accent) 55%, var(--accent-2) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+/* --- Карточка счёта --- */
+.score-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid rgba(124, 92, 255, 0.35);
+  background:
+    linear-gradient(160deg, rgba(124, 92, 255, 0.16), rgba(0, 229, 255, 0.07) 65%),
+    var(--card);
+}
+
+.score-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.score-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+}
+
+.score-total {
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 12px rgba(124, 92, 255, 0.45));
+}
+
+.score-meta {
+  display: flex;
+  gap: 10px;
+}
+
+.chip {
+  flex: 1;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chip-key {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+
+.chip-value {
+  font-weight: 800;
+  font-size: 1.05rem;
+}
+
+/* Полоска опыта */
+.xp-track {
+  height: 10px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 12px rgba(124, 92, 255, 0.7);
+  transition: width 0.5s ease;
+}
+
+.xp-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+/* ============================================
+   Блок добавления задачи
+   ============================================ */
+.add-task {
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin-bottom: 20px;
+}
+
+.add-task input {
+  flex: 2 1 260px;
+  min-height: 52px;
+  background: rgba(9, 11, 26, 0.7);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 0 16px;
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+/* Состояние: фокус поля */
+.add-task input:focus {
+  border-color: var(--accent);
+  background: rgba(9, 11, 26, 0.95);
+  box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.28), 0 0 18px rgba(124, 92, 255, 0.35);
+}
+
+.add-task input::placeholder {
+  color: var(--text-dim);
+}
+
+/* --- Селект предмета --- */
+.subject-pick {
+  flex: 0 0 auto;
+  min-height: 52px;
+  min-width: 64px;
+  background: rgba(9, 11, 26, 0.7);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 0 10px;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.subject-pick:hover,
+.subject-pick:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.22);
+}
+
+/* --- Выбор очков (радио-плитки) --- */
+.xp-pick {
+  display: flex;
+  gap: 8px;
+  flex: 1 1 240px;
+}
+
+.xp-option {
+  flex: 1;
+  cursor: pointer;
+}
+
+.xp-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.xp-option-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 52px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: rgba(9, 11, 26, 0.7);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: center;
+  transition: all 0.18s;
+  user-select: none;
+}
+
+.xp-option-box b {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.xp-option:hover .xp-option-box {
+  border-color: var(--accent-2);
+  transform: translateY(-2px);
+}
+
+/* Состояние: выбранная плитка */
+.xp-option input:checked + .xp-option-box {
+  border-color: var(--accent);
+  background: linear-gradient(160deg, rgba(124, 92, 255, 0.35), rgba(0, 229, 255, 0.15));
+  box-shadow: 0 0 16px rgba(124, 92, 255, 0.35);
+}
+
+.xp-option input:checked + .xp-option-box b {
+  color: var(--accent-2);
+}
+
+.xp-option input:focus-visible + .xp-option-box {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+/* --- Кнопка «Добавить» --- */
+.btn {
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.2s, filter 0.2s;
+  font-family: inherit;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-primary {
+  padding: 0 26px;
+  min-height: 52px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  box-shadow: 0 6px 20px rgba(124, 92, 255, 0.4);
+  white-space: nowrap;
+}
+
+/* Наведение на главную кнопку */
+.btn-primary:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 8px 28px rgba(124, 92, 255, 0.6), 0 0 24px rgba(0, 229, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   Фильтры
+   ============================================ */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--card-solid);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  border-radius: 99px;
+  padding: 10px 22px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(124, 92, 255, 0.4);
+}
+
+/* ============================================
+   Список задач
+   ============================================ */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  animation: pop-in 0.25s ease;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+@keyframes pop-in {
+  from {
+    transform: translateY(-10px) scale(0.98);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Состояние: наведение на задачу */
+.task-item:hover {
+  background: var(--card-hover);
+  border-color: rgba(124, 92, 255, 0.45);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45), 0 0 16px rgba(124, 92, 255, 0.18);
+}
+
+.task-check {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: rgba(9, 11, 26, 0.8);
+  border: 2px solid var(--text-dim);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: transparent;
+  transition: all 0.16s;
+  user-select: none;
+}
+
+.task-check:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(124, 92, 255, 0.5);
+}
+
+.task-check:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+/* Состояние: выполненная задача */
+.task-item.done {
+  opacity: 0.72;
+  background: rgba(16, 32, 42, 0.55);
+}
+
+.task-item.done .task-check {
+  background: linear-gradient(135deg, var(--success), var(--accent-2));
+  border-color: transparent;
+  color: #05251c;
+}
+
+.task-item.done .task-text {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  color: var(--text-dim);
+}
+
+.task-subject {
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.task-text {
+  flex: 1;
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.task-xp {
+  flex-shrink: 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--warn);
+  background: rgba(255, 184, 77, 0.12);
+  border: 1px solid rgba(255, 184, 77, 0.25);
+  padding: 5px 12px;
+  border-radius: 99px;
+  white-space: nowrap;
+}
+
+.task-delete {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 10px;
+  transition: all 0.15s;
+}
+
+.task-delete:hover {
+  color: var(--danger);
+  background: rgba(255, 77, 109, 0.14);
+}
+
+/* ============================================
+   Состояние: пустой список
+   ============================================ */
+.empty-state {
+  border: 2px dashed rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  padding: 48px 24px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.empty-icon {
+  display: inline-block;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.empty-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.empty-hint {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+/* ============================================
+   Тост (награда)
+   ============================================ */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(24px);
+  background: var(--card-solid);
+  border: 1px solid rgba(124, 92, 255, 0.5);
+  border-radius: 99px;
+  padding: 13px 24px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(124, 92, 255, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 100;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   Модалка нового уровня
+   ============================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 15, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal {
+  padding: 36px 32px;
+  text-align: center;
+  max-width: 380px;
+  width: 100%;
+  animation: pop-in 0.3s ease;
+}
+
+.modal h2 {
+  margin-bottom: 10px;
+  font-size: 1.7rem;
+}
+
+.modal p {
+  color: var(--text-dim);
+  margin-bottom: 22px;
+}
+
+/* ============================================
+   Адаптив: телефон
+   ============================================ */
+@media (max-width: 700px) {
+  body {
+    padding: 20px 12px 60px;
+  }
+
+  .header {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .hero {
+    text-align: center;
+    align-items: center;
+  }
+
+  .add-task {
+    flex-direction: column;
+  }
+
+  .add-task input,
+  .add-task .btn-primary {
+    width: 100%;
+  }
+
+  .subject-pick {
+    min-height: 48px;
+    width: 100%;
+  }
+
+  .xp-pick {
+    width: 100%;
+  }
+
+  .task-item {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .task-text {
+    order: 2;
+    flex-basis: calc(100% - 46px);
+  }
+
+  .task-subject {
+    order: 1;
+  }
+
+  .task-xp,
+  .task-delete {
+    order: 3;
+  }
+}

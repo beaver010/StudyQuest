@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyQuest — твой путь к знаниям</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ===== Шапка: крупный заголовок + карточка счёта ===== -->
+    <header class="header">
+
+      <div class="hero">
+        <span class="hero-icon" aria-hidden="true">⚡</span>
+        <h1 class="app-title">StudyQuest</h1>
+        <p class="subtitle">Добавляй учебные задачи, выполняй их и качай уровень!</p>
+      </div>
+
+      <aside class="score-card card" aria-label="Счёт">
+        <div class="score-main">
+          <span class="score-label">Всего очков</span>
+          <span class="score-total" id="totalScore">0</span>
+        </div>
+
+        <div class="score-meta">
+          <div class="chip" title="Текущий уровень">
+            <span class="chip-key">Ур.</span>
+            <span class="chip-value" id="level">1</span>
+          </div>
+          <div class="chip" title="Дней подряд с выполненными задачами">
+            <span class="chip-key">Серия</span>
+            <span class="chip-value" id="streak">0🔥</span>
+          </div>
+        </div>
+
+        <div class="xp-track" role="progressbar" aria-label="Прогресс до следующего уровня">
+          <div class="xp-fill" id="xpFill"></div>
+        </div>
+        <span class="xp-value" id="xpText">0 / 100 XP</span>
+      </aside>
+
+    </header>
+
+    <!-- ===== Поле для задачи + выбор очков + кнопка ===== -->
+    <section class="add-task card">
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="Что нужно выучить? Например: параграф по биологии"
+        maxlength="120"
+        autocomplete="off"
+      />
+      <select id="taskSubject" class="subject-pick" title="Предмет">
+        <option value="📚">📚</option>
+        <option value="📐">📐 Математика</option>
+        <option value="🔬">🔬 Физика</option>
+        <option value="🧬">🧬 Биология</option>
+        <option value="💻">💻 Информатика</option>
+        <option value="✍️">✍️ Русский язык</option>
+        <option value="🌍">🌍 Иностранный</option>
+        <option value="🏛️">🏛️ История</option>
+        <option value="🎨">🎨 Творчество</option>
+      </select>
+      <div class="xp-pick">
+        <label class="xp-option">
+          <input type="radio" name="xp" value="20" checked />
+          <span class="xp-option-box" data-xp="20">Легко<br /><b>20</b></span>
+        </label>
+        <label class="xp-option">
+          <input type="radio" name="xp" value="40" />
+          <span class="xp-option-box" data-xp="40">Средне<br /><b>40</b></span>
+        </label>
+        <label class="xp-option">
+          <input type="radio" name="xp" value="70" />
+          <span class="xp-option-box" data-xp="70">Сложно<br /><b>70</b></span>
+        </label>
+      </div>
+      <button id="addBtn" class="btn btn-primary">➕ Добавить</button>
+    </section>
+
+    <!-- ===== Переключатель фильтра ===== -->
+    <nav class="filters" aria-label="Фильтр задач">
+      <button class="filter-btn active" data-filter="all">Все</button>
+      <button class="filter-btn" data-filter="active">В работе</button>
+      <button class="filter-btn" data-filter="done">Выполнено</button>
+    </nav>
+
+    <!-- ===== Список задач ===== -->
+    <main>
+      <ul id="taskList" class="task-list" aria-live="polite"></ul>
+      <div id="emptyState" class="empty-state" role="status">
+        <span class="empty-icon">🚀</span>
+        <p class="empty-title">Здесь пока пусто</p>
+        <p class="empty-hint">Добавь первую задачу выше и заработай очки!</p>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ===== Всплывающее сообщение о награде ===== -->
+  <div id="toast" class="toast" role="status"></div>
+
+  <!-- ===== Модалка нового уровня ===== -->
+  <div id="levelUpModal" class="modal-overlay hidden">
+    <div class="modal card">
+      <h2>🎉 Новый уровень!</h2>
+      <p>Ты достиг уровня <strong id="modalLevel">2</strong></p>
+      <button class="btn btn-primary" id="modalClose">Продолжить</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
